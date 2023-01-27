@@ -211,10 +211,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('sefailyasoz_budgetify.keystore')
+            storePassword 'sefailyasoz_budgetify'
+            keyAlias 'sefailyasoz_budgetify'
+            keyPassword 'sefailyasoz_budgetify'
         }
     }
     buildTypes {

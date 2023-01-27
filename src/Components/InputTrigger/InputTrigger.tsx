@@ -78,6 +78,12 @@ const InputTrigger: React.FC<Props> = ({
         style={[styles.input, inputStyleHelper('input')]}
         value={value}
         editable={false}
+        onTouchEnd={() => {
+          console.log('test');
+
+          movePlaceOlderUp();
+          onModalOpen(true);
+        }}
       />
     </Pressable>
   );

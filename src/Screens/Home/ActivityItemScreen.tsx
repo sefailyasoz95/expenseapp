@@ -161,21 +161,19 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           <Text style={{fontSize: responsive(35)}}>✅</Text>
         </TouchableOpacity>
       </View>
-      {isOpen && (
-        <DatePicker
-          modal
-          open={isOpen}
-          date={new Date()}
-          mode="date"
-          onConfirm={date => {
-            setIsOpen(false);
-            setFormValues({...formValues, date: formater.format(date)});
-          }}
-          onCancel={() => {
-            setIsOpen(false);
-          }}
-        />
-      )}
+      <DatePicker
+        modal
+        open={isOpen}
+        date={new Date()}
+        mode="date"
+        onConfirm={date => {
+          setIsOpen(false);
+          setFormValues({...formValues, date: formater.format(date)});
+        }}
+        onCancel={() => {
+          setIsOpen(false);
+        }}
+      />
       <BottomSheet
         ref={categoryBottomSheetRef}
         style={styles.bottomSheet}
