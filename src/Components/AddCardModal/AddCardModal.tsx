@@ -113,6 +113,7 @@ const AddCardModal = ({isOpen, onClose, cards, selectedCard}: Props) => {
         styles.container,
         {
           transform: [{scale}],
+          zIndex: isOpen ? 99999 : -9999,
         },
       ]}>
       <View style={styles.content}>
@@ -203,7 +204,7 @@ export default AddCardModal;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    zIndex: 99999,
+
     alignItems: 'center',
     justifyContent: 'space-evenly',
     flex: 1,

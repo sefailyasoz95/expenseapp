@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useCallback, useEffect, useState} from 'react';
 import {HomeStackParams, IActivity, ICard} from '../../Types/types';
 import {
   NavigationProp,
@@ -97,6 +97,22 @@ const HomeScreen = ({navigation, route}: Props) => {
   //     isScrolling.value = false;
   //   },
   // });
+  const getActivityItemsAndCalculateBalance = useCallback(() => {
+    AsyncStorage.getItem('activityItems').then(savedActivities => {
+      if (savedActivities) {
+        let data = JSON.parse(savedActivities);
+        let incomes = 0;
+        let expenses = 0;
+        data.map((item: IActivity, index: number) => {
+          if (item.type === 'expense') expenses += item.price;
+          else incomes += item.price;
+        });
+        setTotalBalance(incomes - expenses);
+        setActivityItems(data);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -106,19 +122,7 @@ const HomeScreen = ({navigation, route}: Props) => {
         }
       });
       // AsyncStorage.removeItem('cards');
-      AsyncStorage.getItem('activityItems').then(savedActivities => {
-        if (savedActivities) {
-          let data = JSON.parse(savedActivities);
-          let incomes = 0;
-          let expenses = 0;
-          data.map((item: IActivity, index: number) => {
-            if (item.type === 'expense') expenses += item.price;
-            else incomes += item.price;
-          });
-          setTotalBalance(incomes - expenses);
-          setActivityItems(data);
-        }
-      });
+      getActivityItemsAndCalculateBalance();
       // AsyncStorage.removeItem('activityItems');
     });
   }, []);
@@ -148,18 +152,18 @@ const HomeScreen = ({navigation, route}: Props) => {
         cards={cards}
       />
       <SafeAreaView style={styles.container}>
-        <View style={[styles.header]}>
+        <View style={styles.header}>
           <View>
             <Text style={styles.balance}>{`${totalBalance} ₺`}</Text>
             <Text style={styles.balanceText}>Toplam Bakiye</Text>
           </View>
           <TouchableOpacity
-            onPress={() =>
+            onPress={() => {
               navigation.navigate('ActivityItemScreen', {
                 cards: cards.length > 0 ? cards : [],
                 activityItems: activityItems.length > 0 ? activityItems : [],
-              })
-            }>
+              });
+            }}>
             <PlusSvg />
           </TouchableOpacity>
         </View>
@@ -213,9 +217,15 @@ const HomeScreen = ({navigation, route}: Props) => {
             onScroll={event => {
               if (event.nativeEvent.contentOffset.x === WIDTH * 0)
                 setActiveIndex(1);
-              else if (event.nativeEvent.contentOffset.x === WIDTH)
+              else if (
+                event.nativeEvent.contentOffset.x.toFixed(2) ===
+                WIDTH.toFixed(2)
+              )
                 setActiveIndex(2);
-              else if (event.nativeEvent.contentOffset.x === WIDTH * 2)
+              else if (
+                event.nativeEvent.contentOffset.x.toFixed(2) ===
+                (WIDTH * 2).toFixed(2)
+              )
                 setActiveIndex(3);
             }}
             decelerationRate="fast">

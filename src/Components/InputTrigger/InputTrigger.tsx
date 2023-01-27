@@ -1,6 +1,7 @@
 import {
   Animated,
   Easing,
+  Pressable,
   StyleProp,
   StyleSheet,
   TextInput,
@@ -54,7 +55,13 @@ const InputTrigger: React.FC<Props> = ({
   }, [isModalOpen]);
 
   return (
-    <View
+    <Pressable
+      onPress={() => {
+        console.log('test');
+
+        movePlaceOlderUp();
+        onModalOpen(true);
+      }}
       style={[
         styles.inputContainer,
         inputContainerStyleHelper('input', 'rounded', false, false, true),
@@ -71,12 +78,8 @@ const InputTrigger: React.FC<Props> = ({
         style={[styles.input, inputStyleHelper('input')]}
         value={value}
         editable={false}
-        onPressOut={() => {
-          movePlaceOlderUp();
-          onModalOpen(true);
-        }}
       />
-    </View>
+    </Pressable>
   );
 };
 

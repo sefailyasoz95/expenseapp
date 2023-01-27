@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
@@ -60,10 +61,17 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     }
   };
   const handleSave = async () => {
-    let dataToBeSaved = route.params.activityItems;
-    dataToBeSaved.push(formValues);
-    await AsyncStorage.setItem('activityItems', JSON.stringify(dataToBeSaved));
-    navigation.navigate('HomeScreen');
+    if (!formValues.description || !formValues.price) {
+      Alert.alert('Açıkalama ve Tutar alanlarını doldurmak zorundasın!');
+    } else {
+      let dataToBeSaved = route.params.activityItems;
+      dataToBeSaved.push(formValues);
+      await AsyncStorage.setItem(
+        'activityItems',
+        JSON.stringify(dataToBeSaved),
+      );
+      navigation.navigate('HomeScreen');
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -136,9 +144,9 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
             }}
             value={
               formValues.cardId
-                ? DummyCards.filter(
-                    item => item.id === formValues.cardId,
-                  )[0].cardNumber.split(' ')[3] + ' ile biten kart'
+                ? route.params.cards
+                    .filter(item => item.id === formValues.cardId)[0]
+                    .cardNumber.split(' ')[3] + ' ile biten kart'
                 : ''
             }
             label="Kart"
@@ -153,19 +161,21 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           <Text style={{fontSize: responsive(35)}}>✅</Text>
         </TouchableOpacity>
       </View>
-      <DatePicker
-        modal
-        open={isOpen}
-        date={new Date()}
-        mode="date"
-        onConfirm={date => {
-          setIsOpen(false);
-          setFormValues({...formValues, date: formater.format(date)});
-        }}
-        onCancel={() => {
-          setIsOpen(false);
-        }}
-      />
+      {isOpen && (
+        <DatePicker
+          modal
+          open={isOpen}
+          date={new Date()}
+          mode="date"
+          onConfirm={date => {
+            setIsOpen(false);
+            setFormValues({...formValues, date: formater.format(date)});
+          }}
+          onCancel={() => {
+            setIsOpen(false);
+          }}
+        />
+      )}
       <BottomSheet
         ref={categoryBottomSheetRef}
         style={styles.bottomSheet}
@@ -177,9 +187,14 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
         onChange={handleCategoryBottomSheetChange}
         animateOnMount
         enablePanDownToClose={true}>
+        <TouchableOpacity
+          onPress={() => categoryBottomSheetRef.current?.close()}
+          style={styles.closeIcon}>
+          <Text>❌</Text>
+        </TouchableOpacity>
         <FlatList
           data={ActivityCategoryNames}
-          style={{marginBottom: 20}}
+          style={{marginVertical: 20}}
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
@@ -218,9 +233,14 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
         onChange={handleCardBottomSheetChange}
         animateOnMount
         enablePanDownToClose={true}>
+        <TouchableOpacity
+          onPress={() => cardBottomSheetRef.current?.close()}
+          style={styles.closeIcon}>
+          <Text>❌</Text>
+        </TouchableOpacity>
         <FlatList
           data={route.params.cards}
-          style={{marginBottom: 20}}
+          style={{marginVertical: 20}}
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
@@ -287,6 +307,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 10,
+    elevation: 10,
   },
   categoryItem: {
     paddingHorizontal: 10,
@@ -315,4 +336,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     marginBottom: 50,
   },
+  closeIcon: {position: 'absolute', right: 15, top: 0, zIndex: 109123},
 });

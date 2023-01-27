@@ -9,7 +9,6 @@ import {
 } from '@shopify/react-native-skia';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
 import {IActivity, ICard} from '../../Types/types';
-import {DummyCards} from '../../Constants/Dummy';
 import {Colors} from '../../Constants/Colors';
 
 type Props = {
