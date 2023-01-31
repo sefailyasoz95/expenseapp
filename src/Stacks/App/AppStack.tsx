@@ -37,13 +37,13 @@ const AppStack = () => {
           title: 'Dashboard',
         }}
       />
-      <App.Screen
+      {/* <App.Screen
         name="SettingsScreen"
         component={SettingsScreen}
         options={{
           title: 'Settings',
         }}
-      />
+      /> */}
     </App.Navigator>
   );
 };

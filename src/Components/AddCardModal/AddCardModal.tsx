@@ -1,4 +1,5 @@
 import {
+  Alert,
   Animated,
   Button,
   Easing,
@@ -12,7 +13,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
 import CloseSvg from '../../Assets/Icons/CloseSvg';
 import SInput from '../SInput/SInput';
-import {ICard} from '../../Types/types';
+import {IActivity, ICard} from '../../Types/types';
 import {Colors} from '../../Constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,9 +22,16 @@ type Props = {
   onClose: (refReshCards: boolean) => void;
   cards: ICard[];
   selectedCard?: ICard;
+  activityItems: IActivity[];
 };
 
-const AddCardModal = ({isOpen, onClose, cards, selectedCard}: Props) => {
+const AddCardModal = ({
+  isOpen,
+  onClose,
+  cards,
+  selectedCard,
+  activityItems,
+}: Props) => {
   const scale = useRef(new Animated.Value(0)).current;
   const [cardValues, setCardValues] = useState<ICard>({
     cardHolder: '',
@@ -106,7 +114,40 @@ const AddCardModal = ({isOpen, onClose, cards, selectedCard}: Props) => {
       }).start();
     }
   }, [isOpen]);
-
+  const handleDelete = async () => {
+    let filteredItems = activityItems.filter(
+      item => item.cardId === selectedCard!.id,
+    );
+    if (filteredItems.length > 0) {
+      Alert.alert(
+        'Bu kartı silmek istediğine emin misin?',
+        'Bu karta ait harcamalar mevcut, bu kartı silersen, onlarda silinecek',
+        [
+          {text: 'Silme'},
+          {
+            text: 'Sil',
+            onPress: async () => {
+              let filteredActivity = activityItems.filter(
+                item => item.cardId !== selectedCard!.id,
+              );
+              await AsyncStorage.setItem(
+                'activityItems',
+                JSON.stringify(filteredActivity),
+              );
+              let filtered = cards.filter(item => item.id !== selectedCard!.id);
+              await AsyncStorage.setItem('cards', JSON.stringify(filtered));
+              onClose(true);
+            },
+            style: 'destructive',
+          },
+        ],
+      );
+    } else {
+      let filtered = cards.filter(item => item.id !== selectedCard!.id);
+      await AsyncStorage.setItem('cards', JSON.stringify(filtered));
+      onClose(true);
+    }
+  };
   return (
     <Animated.View
       style={[
@@ -183,6 +224,13 @@ const AddCardModal = ({isOpen, onClose, cards, selectedCard}: Props) => {
               style={[styles.button, {backgroundColor: '#ff4444'}]}>
               <Text style={styles.btnText}>İptal</Text>
             </TouchableOpacity>
+            {selectedCard?.id && (
+              <TouchableOpacity
+                style={{padding: 10}}
+                onPress={() => handleDelete()}>
+                <Text>❌</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               onPress={() => {
                 Keyboard.dismiss();

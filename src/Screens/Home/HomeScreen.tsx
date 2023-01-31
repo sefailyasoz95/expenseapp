@@ -112,15 +112,17 @@ const HomeScreen = ({navigation, route}: Props) => {
       }
     });
   }, []);
-
+  const getCards = useCallback(() => {
+    AsyncStorage.getItem('cards').then(savedCards => {
+      if (savedCards) {
+        setCards(JSON.parse(savedCards));
+      }
+    });
+  }, []);
   useEffect(() => {
     navigation.addListener('focus', () => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-      AsyncStorage.getItem('cards').then(savedCards => {
-        if (savedCards) {
-          setCards(JSON.parse(savedCards));
-        }
-      });
+      getCards();
       // AsyncStorage.removeItem('cards');
       getActivityItemsAndCalculateBalance();
       // AsyncStorage.removeItem('activityItems');
@@ -133,20 +135,18 @@ const HomeScreen = ({navigation, route}: Props) => {
       animated: true,
     });
   }, [activeIndex]);
-  console.log('selectedCard: ', selectedCard);
+
   return (
     <>
       <AddCardModal
         isOpen={addCardOpen}
+        activityItems={activityItems}
         selectedCard={selectedCard}
         onClose={refReshCards => {
           setAddCardOpen(false);
           if (refReshCards) {
-            AsyncStorage.getItem('cards').then(savedCards => {
-              if (savedCards) {
-                setCards(JSON.parse(savedCards));
-              }
-            });
+            getCards();
+            getActivityItemsAndCalculateBalance();
           }
         }}
         cards={cards}
