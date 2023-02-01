@@ -244,7 +244,13 @@ const HomeScreen = ({navigation, route}: Props) => {
                   type={item.type}
                   key={index}
                   item={item}
-                  onItemLongPress={() => {}}
+                  onItemLongPress={() => {
+                    navigation.navigate('ActivityItemScreen', {
+                      activityItems,
+                      cards,
+                      selectedActivityItem: item,
+                    });
+                  }}
                   cards={cards}
                 />
               )}
@@ -255,7 +261,7 @@ const HomeScreen = ({navigation, route}: Props) => {
                   onItemLongPress={() => {}}
                   item={{
                     category: 'Other',
-                    date: formater.format(new Date()),
+                    date: '',
                     description: 'Henüz bir gider ya da gelir eklemediniz',
                     id: -1,
                     price: 0,
@@ -278,7 +284,13 @@ const HomeScreen = ({navigation, route}: Props) => {
                   type={item.type}
                   key={index}
                   item={item}
-                  onItemLongPress={() => {}}
+                  onItemLongPress={() => {
+                    navigation.navigate('ActivityItemScreen', {
+                      activityItems,
+                      cards,
+                      selectedActivityItem: item,
+                    });
+                  }}
                   cards={cards}
                 />
               )}
@@ -289,7 +301,7 @@ const HomeScreen = ({navigation, route}: Props) => {
                   onItemLongPress={() => {}}
                   item={{
                     category: 'Other',
-                    date: formater.format(new Date()),
+                    date: '',
                     description: 'Henüz bir gider eklemediniz',
                     id: -1,
                     price: 0,
@@ -312,7 +324,13 @@ const HomeScreen = ({navigation, route}: Props) => {
                   type={item.type}
                   key={index}
                   item={item}
-                  onItemLongPress={() => {}}
+                  onItemLongPress={() => {
+                    navigation.navigate('ActivityItemScreen', {
+                      activityItems,
+                      cards,
+                      selectedActivityItem: item,
+                    });
+                  }}
                   cards={cards}
                 />
               )}
@@ -323,7 +341,7 @@ const HomeScreen = ({navigation, route}: Props) => {
                   cards={[]}
                   item={{
                     category: 'Other',
-                    date: formater.format(new Date()),
+                    date: '',
                     description: 'Henüz bir gelir eklemediniz',
                     id: -1,
                     price: 0,

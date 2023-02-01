@@ -16,6 +16,7 @@ export type HomeStackParams = {
   ActivityItemScreen: {
     cards: ICard[];
     activityItems: IActivity[];
+    selectedActivityItem?: IActivity;
   };
 };
 

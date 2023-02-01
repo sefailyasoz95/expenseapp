@@ -3,6 +3,7 @@ import {
   FlatList,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -46,6 +47,9 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     cardId: undefined,
   });
   useEffect(() => {
+    if (route.params.selectedActivityItem) {
+      setFormValues(route.params.selectedActivityItem);
+    }
     return () => {
       Keyboard.dismiss();
     };
@@ -64,14 +68,32 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     if (!formValues.description || !formValues.price) {
       Alert.alert('Açıkalama ve Tutar alanlarını doldurmak zorundasın!');
     } else {
-      let dataToBeSaved = route.params.activityItems;
-      dataToBeSaved.push(formValues);
-      await AsyncStorage.setItem(
-        'activityItems',
-        JSON.stringify(dataToBeSaved),
-      );
+      if (route.params.selectedActivityItem) {
+        let dataToBeSaved = route.params.activityItems.filter(
+          item => item.id !== route.params.selectedActivityItem?.id,
+        );
+        dataToBeSaved.push(formValues);
+        await AsyncStorage.setItem(
+          'activityItems',
+          JSON.stringify(dataToBeSaved),
+        );
+      } else {
+        let dataToBeSaved = route.params.activityItems;
+        dataToBeSaved.push(formValues);
+        await AsyncStorage.setItem(
+          'activityItems',
+          JSON.stringify(dataToBeSaved),
+        );
+      }
       navigation.navigate('HomeScreen');
     }
+  };
+  const handleDelete = async () => {
+    let dataToBeSaved = route.params.activityItems.filter(
+      item => item.id !== route.params.selectedActivityItem?.id,
+    );
+    await AsyncStorage.setItem('activityItems', JSON.stringify(dataToBeSaved));
+    navigation.navigate('HomeScreen');
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -111,6 +133,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
             corner="rounded"
             style={styles.input}
             characterLimit={50}
+            value={formValues.description}
           />
           <SInput
             placeholder="Tutar *"
@@ -122,6 +145,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
             corner="rounded"
             style={styles.input}
             keyboardType="decimal-pad"
+            value={formValues.price.toString()}
           />
           <InputTrigger
             isModalOpen={isOpen}
@@ -155,8 +179,17 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
       </KeyboardAvoidingView>
       <View style={styles.bottomButtons}>
         <TouchableOpacity onPress={navigation.goBack}>
-          <Text style={{fontSize: responsive(35)}}>❌</Text>
+          {Platform.OS === 'android' ? (
+            <Text style={{fontSize: responsive(35)}}>🔙</Text>
+          ) : (
+            <Text style={{fontSize: responsive(35)}}>⬅</Text>
+          )}
         </TouchableOpacity>
+        {route.params.selectedActivityItem && (
+          <TouchableOpacity onPress={() => handleDelete()}>
+            <Text style={{fontSize: responsive(35)}}>❌</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity onPress={() => handleSave()}>
           <Text style={{fontSize: responsive(35)}}>✅</Text>
         </TouchableOpacity>
