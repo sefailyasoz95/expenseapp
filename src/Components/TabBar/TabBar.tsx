@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     backgroundColor: Colors.primary,
-
+    elevation: 20,
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
-      height: -10,
+      height: 0,
     },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
 });
 export default TabBar;
