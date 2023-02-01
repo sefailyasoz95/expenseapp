@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ExpenseApp.app"
-               BlueprintName = "ExpenseApp"
-               ReferencedContainer = "container:ExpenseApp.xcodeproj">
+               BuildableName = "expenseapp.app"
+               BlueprintName = "expenseapp"
+               ReferencedContainer = "container:expenseapp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ExpenseAppTests.xctest"
-               BlueprintName = "ExpenseAppTests"
-               ReferencedContainer = "container:ExpenseApp.xcodeproj">
+               BuildableName = "expenseappTests.xctest"
+               BlueprintName = "expenseappTests"
+               ReferencedContainer = "container:expenseapp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ExpenseApp.app"
-            BlueprintName = "ExpenseApp"
-            ReferencedContainer = "container:ExpenseApp.xcodeproj">
+            BuildableName = "expenseapp.app"
+            BlueprintName = "expenseapp"
+            ReferencedContainer = "container:expenseapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ExpenseApp.app"
-            BlueprintName = "ExpenseApp"
-            ReferencedContainer = "container:ExpenseApp.xcodeproj">
+            BuildableName = "expenseapp.app"
+            BlueprintName = "expenseapp"
+            ReferencedContainer = "container:expenseapp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
