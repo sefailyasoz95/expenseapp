@@ -25,6 +25,9 @@ import {ActivityCategoryNames, DummyCards} from '../../Constants/Dummy';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {responsive} from '../../utils/Helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
+import {createActivity} from '../../Redux/actions/activityActions';
+import {getUniqueId} from 'react-native-device-info';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'ActivityItemScreen'>;
@@ -33,6 +36,8 @@ type Props = {
 
 const ActivityItemScreen = ({navigation, route}: Props) => {
   const formater = new Intl.DateTimeFormat('tr-TR');
+  const dispatch = useAppDispatch();
+  const {activities} = useAppSelector(state => state.global);
   const categoryBottomSheetRef = useRef<BottomSheet>(null);
   const cardBottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '40%'], []);
@@ -78,12 +83,21 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           JSON.stringify(dataToBeSaved),
         );
       } else {
-        let dataToBeSaved = route.params.activityItems;
-        dataToBeSaved.push(formValues);
-        await AsyncStorage.setItem(
-          'activityItems',
-          JSON.stringify(dataToBeSaved),
-        );
+        const deviceId = await getUniqueId();
+        // let dataToBeSaved = route.params.activityItems;
+        // dataToBeSaved.push(formValues);
+        // await AsyncStorage.setItem(
+        //   'activityItems',
+        //   JSON.stringify(dataToBeSaved),
+        // );
+        let dataTobeSend = {
+          ...formValues,
+          userEmail: 'sefailyas1455@gmail.com',
+          deviceId,
+        };
+        console.log('dataTobeSend2: ', dataTobeSend);
+
+        dispatch(createActivity(dataTobeSend));
       }
       navigation.navigate('HomeScreen');
     }

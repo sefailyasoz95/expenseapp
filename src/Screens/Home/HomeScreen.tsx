@@ -33,6 +33,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
+import {getActivitiesByDeviceId} from '../../Redux/actions/activityActions';
+import Loading from '../../Components/Loading/Loading';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'HomeScreen'>;
@@ -44,6 +47,8 @@ const HomeScreen = ({navigation, route}: Props) => {
   const [selectedCard, setSelectedCard] = useState<ICard | undefined>(
     undefined,
   );
+  const dispatch = useAppDispatch();
+  const {activities, loading} = useAppSelector(state => state.global);
   const safeAreaInsets = useSafeAreaInsets();
   const [activeIndex, setActiveIndex] = useState(1);
   const [totalBalance, setTotalBalance] = useState<Number>(0);
@@ -112,20 +117,24 @@ const HomeScreen = ({navigation, route}: Props) => {
       }
     });
   }, []);
-  const getCards = useCallback(() => {
-    AsyncStorage.getItem('cards').then(savedCards => {
-      if (savedCards) {
-        setCards(JSON.parse(savedCards));
-      }
-    });
-  }, []);
+
+  useEffect(() => {
+    if (activities.length > 0) {
+      let incomes = 0;
+      let expenses = 0;
+      activities.map((item: IActivity, index: number) => {
+        if (item.type === 'expense') expenses += item.price;
+        else incomes += item.price;
+      });
+      setTotalBalance(incomes - expenses);
+    }
+  }, [activities]);
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-      getCards();
-      // AsyncStorage.removeItem('cards');
       getActivityItemsAndCalculateBalance();
-      // AsyncStorage.removeItem('activityItems');
+      dispatch(getActivitiesByDeviceId());
     });
   }, []);
 
@@ -140,17 +149,18 @@ const HomeScreen = ({navigation, route}: Props) => {
     <>
       <AddCardModal
         isOpen={addCardOpen}
-        activityItems={activityItems}
+        activityItems={activities}
         selectedCard={selectedCard}
         onClose={refReshCards => {
           setAddCardOpen(false);
           if (refReshCards) {
-            getCards();
+            // getCards();
             getActivityItemsAndCalculateBalance();
           }
         }}
         cards={cards}
       />
+      <Loading />
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View>
@@ -161,7 +171,7 @@ const HomeScreen = ({navigation, route}: Props) => {
             onPress={() => {
               navigation.navigate('ActivityItemScreen', {
                 cards: cards.length > 0 ? cards : [],
-                activityItems: activityItems.length > 0 ? activityItems : [],
+                activityItems: activities.length > 0 ? activities : [],
               });
             }}>
             <PlusSvg />
@@ -231,7 +241,7 @@ const HomeScreen = ({navigation, route}: Props) => {
             decelerationRate="fast">
             <Animated.FlatList
               key={'generalLook'}
-              data={activityItems}
+              data={activities}
               snapToAlignment="start"
               // onScroll={scrollHandler}
               snapToInterval={HEIGHT * 0.1}
@@ -246,7 +256,7 @@ const HomeScreen = ({navigation, route}: Props) => {
                   item={item}
                   onItemLongPress={() => {
                     navigation.navigate('ActivityItemScreen', {
-                      activityItems,
+                      activityItems: activities,
                       cards,
                       selectedActivityItem: item,
                     });
@@ -272,7 +282,7 @@ const HomeScreen = ({navigation, route}: Props) => {
             />
             <FlatList
               key={'expenses'}
-              data={activityItems.filter(item => item.type === 'expense')}
+              data={activities.filter(item => item.type === 'expense')}
               snapToAlignment="start"
               contentContainerStyle={{
                 width: WIDTH,
@@ -286,7 +296,7 @@ const HomeScreen = ({navigation, route}: Props) => {
                   item={item}
                   onItemLongPress={() => {
                     navigation.navigate('ActivityItemScreen', {
-                      activityItems,
+                      activityItems: activities,
                       cards,
                       selectedActivityItem: item,
                     });
@@ -312,7 +322,7 @@ const HomeScreen = ({navigation, route}: Props) => {
             />
             <FlatList
               key={'incomes'}
-              data={activityItems.filter(item => item.type === 'income')}
+              data={activities.filter(item => item.type === 'income')}
               snapToAlignment="start"
               contentContainerStyle={{
                 width: WIDTH,
@@ -326,7 +336,7 @@ const HomeScreen = ({navigation, route}: Props) => {
                   item={item}
                   onItemLongPress={() => {
                     navigation.navigate('ActivityItemScreen', {
-                      activityItems,
+                      activityItems: activities,
                       cards,
                       selectedActivityItem: item,
                     });

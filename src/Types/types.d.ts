@@ -3,6 +3,8 @@ export type InitialState = {
   success: boolean;
   error: boolean;
   message: string;
+  activities: IActivity[];
+  isWelcomePassed: boolean;
 };
 
 export type AppStackParams = {
@@ -54,4 +56,28 @@ export type IActivity = {
   description: string;
   category: string;
   cardId?: number;
+};
+
+export type CreateActivityType = {
+  type: IActivityType;
+  price: number;
+  date: string;
+  description: string;
+  category: string;
+  cardId?: number;
+  deviceId: string;
+};
+
+export type GenericApiResponse = {
+  message: string;
+  statusCode: number;
+  data: any;
+};
+
+export type CreateUserType = {
+  deviceId: string;
+  gender: string;
+  email: string;
+  dateOfBirth: Date;
+  isPremium: boolean;
 };

@@ -19,6 +19,7 @@ type Props = {
 };
 
 const ActivityItem = ({item, type, cards, onItemLongPress}: Props) => {
+  const formater = new Intl.DateTimeFormat('tr-TR');
   return (
     <Pressable style={styles.container} onLongPress={onItemLongPress}>
       <Canvas style={styles.card}>
@@ -57,7 +58,7 @@ const ActivityItem = ({item, type, cards, onItemLongPress}: Props) => {
             {item.cardId
               ? cards
                   .find(it => it.id === item.cardId)
-                  ?.cardNumber.split(' ')[3] + ' ile biten kart'
+                  ?.cardDisplayNumber.split(' ')[3] + ' ile biten kart'
               : ''}
           </Text>
           <Text
