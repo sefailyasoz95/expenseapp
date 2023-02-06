@@ -37,7 +37,6 @@ type Props = {
 const ActivityItemScreen = ({navigation, route}: Props) => {
   const formater = new Intl.DateTimeFormat('tr-TR');
   const dispatch = useAppDispatch();
-  const {activities} = useAppSelector(state => state.global);
   const categoryBottomSheetRef = useRef<BottomSheet>(null);
   const cardBottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '40%'], []);
@@ -64,6 +63,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
       categoryBottomSheetRef.current?.close();
     }
   };
+
   const handleCardBottomSheetChange = (activeIndex: number) => {
     if (activeIndex === 0) {
       cardBottomSheetRef.current?.close();
@@ -74,29 +74,14 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
       Alert.alert('Açıkalama ve Tutar alanlarını doldurmak zorundasın!');
     } else {
       if (route.params.selectedActivityItem) {
-        let dataToBeSaved = route.params.activityItems.filter(
-          item => item.id !== route.params.selectedActivityItem?.id,
-        );
-        dataToBeSaved.push(formValues);
-        await AsyncStorage.setItem(
-          'activityItems',
-          JSON.stringify(dataToBeSaved),
-        );
+        // handle update here
       } else {
         const deviceId = await getUniqueId();
-        // let dataToBeSaved = route.params.activityItems;
-        // dataToBeSaved.push(formValues);
-        // await AsyncStorage.setItem(
-        //   'activityItems',
-        //   JSON.stringify(dataToBeSaved),
-        // );
         let dataTobeSend = {
           ...formValues,
           userEmail: 'sefailyas1455@gmail.com',
           deviceId,
         };
-        console.log('dataTobeSend2: ', dataTobeSend);
-
         dispatch(createActivity(dataTobeSend));
       }
       navigation.navigate('HomeScreen');
@@ -289,6 +274,8 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
+                console.log('item.id: ', item.id);
+
                 setFormValues({
                   ...formValues,
                   cardId: item.id,

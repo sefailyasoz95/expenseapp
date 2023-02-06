@@ -6,6 +6,7 @@ import {
   getActivitiesByDeviceId,
 } from '../actions/activityActions';
 import {createUser} from '../actions/userActions';
+import {createCard, getCardsByDeviceId} from '../actions/cardActions';
 
 export const initialState: InitialState = {
   error: false,
@@ -14,6 +15,7 @@ export const initialState: InitialState = {
   message: '',
   activities: [],
   isWelcomePassed: false,
+  cards: [],
 };
 
 export const reducer = createSlice({
@@ -42,7 +44,6 @@ export const reducer = createSlice({
         createActivity.fulfilled,
         (state, action: PayloadAction<GenericApiResponse>) => {
           if (action.payload.statusCode === 200) {
-            state.activities = [...state.activities, action.payload.data];
           } else {
             // state.activities
           }
@@ -98,6 +99,48 @@ export const reducer = createSlice({
         state.error = true;
         state.loading = false;
         // *********** Create User END *********** \\
+      }) // *********** Create Card START *********** \\
+      .addCase(createCard.pending, state => {
+        state.loading = true;
+        state.message = '';
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(
+        createCard.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+          } else {
+          }
+          state.loading = false;
+        },
+      )
+      .addCase(createCard.rejected, (state, action: any) => {
+        state.error = true;
+        state.loading = false;
+        // *********** Create Card END *********** \\
+      }) // *********** Get Cards By Device Id START *********** \\
+      .addCase(getCardsByDeviceId.pending, state => {
+        state.loading = true;
+        state.message = '';
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(
+        getCardsByDeviceId.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+            state.cards = action.payload.data;
+          } else {
+            // state.activities
+          }
+          state.loading = false;
+        },
+      )
+      .addCase(getCardsByDeviceId.rejected, (state, action: any) => {
+        state.error = true;
+        state.loading = false;
+        // *********** Get Cards By Device Id END *********** \\
       });
   },
 });

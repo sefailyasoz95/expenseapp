@@ -5,6 +5,7 @@ export type InitialState = {
   message: string;
   activities: IActivity[];
   isWelcomePassed: boolean;
+  cards: ICard[];
 };
 
 export type AppStackParams = {
@@ -56,6 +57,7 @@ export type IActivity = {
   description: string;
   category: string;
   cardId?: number;
+  card?: ICard;
 };
 
 export type CreateActivityType = {
@@ -80,4 +82,13 @@ export type CreateUserType = {
   email: string;
   dateOfBirth: Date;
   isPremium: boolean;
+};
+
+export type CreateCardType = {
+  cardNumber: string;
+  validThru: string;
+  cardHolder: string;
+  cardDisplayNumber: string;
+  cvv: string;
+  userEmail: string;
 };

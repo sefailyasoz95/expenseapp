@@ -55,10 +55,8 @@ const ActivityItem = ({item, type, cards, onItemLongPress}: Props) => {
         </View>
         <View style={styles.row}>
           <Text style={[styles.description, {fontStyle: 'italic'}]}>
-            {item.cardId
-              ? cards
-                  .find(it => it.id === item.cardId)
-                  ?.cardDisplayNumber.split(' ')[3] + ' ile biten kart'
+            {item.card
+              ? item.card.cardDisplayNumber.split(' ')[3] + ' ile biten kart'
               : ''}
           </Text>
           <Text

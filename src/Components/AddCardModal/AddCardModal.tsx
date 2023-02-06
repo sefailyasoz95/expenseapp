@@ -16,6 +16,8 @@ import SInput from '../SInput/SInput';
 import {IActivity, ICard} from '../../Types/types';
 import {Colors} from '../../Constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppDispatch} from '../../Redux/store/store';
+import {createCard} from '../../Redux/actions/cardActions';
 
 type Props = {
   isOpen: boolean;
@@ -33,6 +35,7 @@ const AddCardModal = ({
   activityItems,
 }: Props) => {
   const scale = useRef(new Animated.Value(0)).current;
+  const dispatch = useAppDispatch();
   const [cardValues, setCardValues] = useState<ICard>({
     cardHolder: '',
     cardNumber: '',
@@ -91,9 +94,11 @@ const AddCardModal = ({
       cards.find(item => item.id === selectedCard.id)!.validThru =
         manipulated.validThru;
     } else {
-      cards.push(manipulated);
+      const {id, ...rest} = manipulated;
+      dispatch(createCard({...rest, userEmail: 'sefailyas1455@gmail.com'}));
+      // cards.push(manipulated);
     }
-    await AsyncStorage.setItem('cards', JSON.stringify(cards));
+    // await AsyncStorage.setItem('cards', JSON.stringify(cards));
     onClose(true);
   };
 

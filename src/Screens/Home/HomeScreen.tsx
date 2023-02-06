@@ -36,6 +36,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
 import {getActivitiesByDeviceId} from '../../Redux/actions/activityActions';
 import Loading from '../../Components/Loading/Loading';
+import {getCardsByDeviceId} from '../../Redux/actions/cardActions';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'HomeScreen'>;
@@ -48,12 +49,12 @@ const HomeScreen = ({navigation, route}: Props) => {
     undefined,
   );
   const dispatch = useAppDispatch();
-  const {activities, loading} = useAppSelector(state => state.global);
+  const {activities, loading, cards} = useAppSelector(state => state.global);
   const safeAreaInsets = useSafeAreaInsets();
   const [activeIndex, setActiveIndex] = useState(1);
   const [totalBalance, setTotalBalance] = useState<Number>(0);
   const scrollRef = createRef<ScrollView>();
-  const [cards, setCards] = useState<ICard[]>([]);
+
   const [addCardOpen, setAddCardOpen] = useState(false);
   const [activityItems, setActivityItems] = useState<IActivity[]>([]);
   const [ref, setRef] = useState<any>();
@@ -103,19 +104,15 @@ const HomeScreen = ({navigation, route}: Props) => {
   //   },
   // });
   const getActivityItemsAndCalculateBalance = useCallback(() => {
-    AsyncStorage.getItem('activityItems').then(savedActivities => {
-      if (savedActivities) {
-        let data = JSON.parse(savedActivities);
-        let incomes = 0;
-        let expenses = 0;
-        data.map((item: IActivity, index: number) => {
-          if (item.type === 'expense') expenses += item.price;
-          else incomes += item.price;
-        });
-        setTotalBalance(incomes - expenses);
-        setActivityItems(data);
-      }
-    });
+    if (activities.length > 0) {
+      let incomes = 0;
+      let expenses = 0;
+      activities.map((item: IActivity, index: number) => {
+        if (item.type === 'expense') expenses += item.price;
+        else incomes += item.price;
+      });
+      setTotalBalance(incomes - expenses);
+    }
   }, []);
 
   useEffect(() => {
@@ -135,6 +132,7 @@ const HomeScreen = ({navigation, route}: Props) => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       getActivityItemsAndCalculateBalance();
       dispatch(getActivitiesByDeviceId());
+      dispatch(getCardsByDeviceId());
     });
   }, []);
 
