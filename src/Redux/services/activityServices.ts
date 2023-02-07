@@ -14,11 +14,28 @@ export const GetActivitiesByDeviceIdAsync = async () => {
 
 export const CreateActivityAsync = async (data: CreateActivityType) => {
   try {
-    console.log("data I'm sending to backend: ", data);
-
     const response = await axiosClient.post(`activities`, data);
-    console.log('responseresponse:: ', response.data);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
 
+export const UpdateActivityAsync = async (
+  id: number,
+  data: CreateActivityType,
+) => {
+  try {
+    const response = await axiosClient.patch(`activities/${id}`, data);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const DeleteActivityAsync = async (id: number) => {
+  try {
+    const response = await axiosClient.delete(`activities/${id}`);
     return response.data;
   } catch (error) {
     return error;

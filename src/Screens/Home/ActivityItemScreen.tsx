@@ -26,8 +26,13 @@ import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {responsive} from '../../utils/Helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
-import {createActivity} from '../../Redux/actions/activityActions';
+import {
+  createActivity,
+  deleteActivity,
+  updateActivity,
+} from '../../Redux/actions/activityActions';
 import {getUniqueId} from 'react-native-device-info';
+import Loading from '../../Components/Loading/Loading';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'ActivityItemScreen'>;
@@ -37,6 +42,7 @@ type Props = {
 const ActivityItemScreen = ({navigation, route}: Props) => {
   const formater = new Intl.DateTimeFormat('tr-TR');
   const dispatch = useAppDispatch();
+  const {loading} = useAppSelector(state => state.global);
   const categoryBottomSheetRef = useRef<BottomSheet>(null);
   const cardBottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '40%'], []);
@@ -73,10 +79,20 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     if (!formValues.description || !formValues.price) {
       Alert.alert('Açıkalama ve Tutar alanlarını doldurmak zorundasın!');
     } else {
+      const deviceId = await getUniqueId();
       if (route.params.selectedActivityItem) {
-        // handle update here
+        let dataTobeSend = {
+          ...formValues,
+          userEmail: 'sefailyas1455@gmail.com',
+          deviceId,
+        };
+        dispatch(
+          updateActivity({
+            id: route.params.selectedActivityItem.id,
+            data: dataTobeSend,
+          }),
+        );
       } else {
-        const deviceId = await getUniqueId();
         let dataTobeSend = {
           ...formValues,
           userEmail: 'sefailyas1455@gmail.com',
@@ -88,10 +104,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     }
   };
   const handleDelete = async () => {
-    let dataToBeSaved = route.params.activityItems.filter(
-      item => item.id !== route.params.selectedActivityItem?.id,
-    );
-    await AsyncStorage.setItem('activityItems', JSON.stringify(dataToBeSaved));
+    dispatch(deleteActivity(route.params.selectedActivityItem!.id));
     navigation.navigate('HomeScreen');
   };
   return (
@@ -102,6 +115,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
         cards={route.params.cards}
         onItemLongPress={() => {}}
       />
+      {loading && <Loading />}
       <KeyboardAvoidingView style={{flex: 1, width: WIDTH}}>
         <ScrollView style={{flex: 1}} automaticallyAdjustKeyboardInsets>
           <View style={styles.tabs}>

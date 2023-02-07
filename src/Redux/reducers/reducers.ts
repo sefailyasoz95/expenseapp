@@ -3,7 +3,9 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {GenericApiResponse, InitialState} from '../../Types/types';
 import {
   createActivity,
+  deleteActivity,
   getActivitiesByDeviceId,
+  updateActivity,
 } from '../actions/activityActions';
 import {createUser} from '../actions/userActions';
 import {createCard, getCardsByDeviceId} from '../actions/cardActions';
@@ -141,6 +143,50 @@ export const reducer = createSlice({
         state.error = true;
         state.loading = false;
         // *********** Get Cards By Device Id END *********** \\
+      }) // *********** Update Activity START *********** \\
+      .addCase(updateActivity.pending, state => {
+        state.loading = true;
+        state.message = '';
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(
+        updateActivity.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+            // state.cards = action.payload.data;
+          } else {
+            // state.activities
+          }
+          state.loading = false;
+        },
+      )
+      .addCase(updateActivity.rejected, (state, action: any) => {
+        state.error = true;
+        state.loading = false;
+        // *********** Update Activity END *********** \\
+      }) // *********** Delete Activity START *********** \\
+      .addCase(deleteActivity.pending, state => {
+        state.loading = true;
+        state.message = '';
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(
+        deleteActivity.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+            // state.cards = action.payload.data;
+          } else {
+            // state.activities
+          }
+          state.loading = false;
+        },
+      )
+      .addCase(deleteActivity.rejected, (state, action: any) => {
+        state.error = true;
+        state.loading = false;
+        // *********** Delete Activity END *********** \\
       });
   },
 });
