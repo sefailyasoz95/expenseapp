@@ -10,6 +10,7 @@ import {
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
 import {IActivity, ICard} from '../../Types/types';
 import {Colors} from '../../Constants/Colors';
+import Icon from '../Icon/Icon';
 
 type Props = {
   item: IActivity;
@@ -48,6 +49,7 @@ const ActivityItem = ({item, type, cards, onItemLongPress}: Props) => {
       </Canvas>
       <View style={styles.content}>
         <View style={styles.row}>
+          <Icon name={item.category} selected={false} />
           <Text style={[styles.description, {width: '60%'}]}>
             {item.description}
           </Text>
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 2,
-    marginLeft: 2,
+    marginVertical: 5,
+    marginLeft: 5,
   },
 });

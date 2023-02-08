@@ -21,7 +21,7 @@ import Tab from '../../Components/Tabs/Tab';
 import DatePicker from 'react-native-date-picker';
 import InputTrigger from '../../Components/InputTrigger/InputTrigger';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {ActivityCategoryNames, DummyCards} from '../../Constants/Dummy';
+import {ActivityCategoryNames} from '../../Constants/Dummy';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {responsive} from '../../utils/Helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,6 +33,7 @@ import {
 } from '../../Redux/actions/activityActions';
 import {getUniqueId} from 'react-native-device-info';
 import Loading from '../../Components/Loading/Loading';
+import Icon from '../../Components/Icon/Icon';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'ActivityItemScreen'>;
@@ -261,6 +262,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
                       : 'transparent',
                 },
               ]}>
+              <Icon selected={false} name={item.value} />
               <Text style={[styles.categoryItemText]}>{item.value}</Text>
             </TouchableOpacity>
           )}
@@ -288,8 +290,6 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
-                console.log('item.id: ', item.id);
-
                 setFormValues({
                   ...formValues,
                   cardId: item.id,
@@ -362,11 +362,13 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 10,
     margin: 10,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   categoryItemText: {
     fontWeight: 'bold',
     color: Colors.white,
+    marginLeft: 5,
   },
   cardsEmptyListText: {
     textAlign: 'center',

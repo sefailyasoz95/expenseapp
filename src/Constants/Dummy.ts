@@ -1,62 +1,5 @@
 import {IActivity, ICard, ICategory} from '../Types/types';
 
-export const DummyCards: ICard[] = [
-  {
-    id: 1,
-    cardNumber: '**** **** **** 1071',
-    cardHolder: 'Sefa İlyas Öz',
-    validThru: '07/23',
-    cvv: '***',
-    cardType: 'Visa',
-    colors: ['rgba(136,98,199,1)', 'rgba(112,91,176,1)', 'rgba(160,100,182,1)'],
-  },
-  {
-    id: 2,
-    cardNumber: '**** **** **** 1453',
-    cardHolder: 'Sefa İlyas Öz',
-    validThru: '10/25',
-    cvv: '***',
-    cardType: 'Master',
-    colors: ['rgba(136,98,199,1)', 'rgba(112,91,176,1)', 'rgba(160,100,182,1)'],
-  },
-  {
-    id: 3,
-    cardNumber: '**** **** **** 1453',
-    cardHolder: 'Sefa İlyas Öz',
-    validThru: '10/25',
-    cvv: '***',
-    cardType: 'Master',
-    colors: ['rgba(136,98,199,1)', 'rgba(112,91,176,1)', 'rgba(160,100,182,1)'],
-  },
-  {
-    id: 4,
-    cardNumber: '**** **** **** 1453',
-    cardHolder: 'Sefa İlyas Öz',
-    validThru: '10/25',
-    cvv: '***',
-    cardType: 'Master',
-    colors: ['rgba(136,98,199,1)', 'rgba(112,91,176,1)', 'rgba(160,100,182,1)'],
-  },
-  {
-    id: 5,
-    cardNumber: '**** **** **** 1453',
-    cardHolder: 'Sefa İlyas Öz',
-    validThru: '10/25',
-    cvv: '***',
-    cardType: 'Master',
-    colors: ['rgba(136,98,199,1)', 'rgba(112,91,176,1)', 'rgba(160,100,182,1)'],
-  },
-  {
-    id: 6,
-    cardNumber: '**** **** **** 1453',
-    cardHolder: 'Sefa İlyas Öz',
-    validThru: '10/25',
-    cvv: '***',
-    cardType: 'Master',
-    colors: ['rgba(136,98,199,1)', 'rgba(112,91,176,1)', 'rgba(160,100,182,1)'],
-  },
-];
-
 export const Activities: IActivity[] = [
   {
     id: 1,
@@ -146,18 +89,18 @@ export const Activities: IActivity[] = [
 // ]
 
 export const ActivityCategoryNames: ICategory[] = [
-  {id: 12, key: 'other', value: 'Diğer'},
-  {id: 1, key: 'fun', value: 'Eğlence'},
-  {id: 2, key: 'bills', value: 'Faturalar'},
-  {id: 3, key: 'salary', value: 'Maaş'},
-  {id: 4, key: 'transportation', value: 'Ulaşım'},
-  {id: 5, key: 'kitchen', value: 'Mutfak'},
-  {id: 6, key: 'transaction', value: 'Para Aktarma'},
-  {id: 7, key: 'outsource', value: 'Ek Gelir'},
-  {id: 8, key: 'rent', value: 'Kira'},
-  {id: 9, key: 'creditCard', value: 'Kredi Kartı'},
-  {id: 10, key: 'credit', value: 'Kredi'},
-  {id: 11, key: 'food', value: 'Yemek'},
-  {id: 13, key: 'gasoline', value: 'Benzin'},
-  {id: 14, key: 'car', value: 'Araba'},
+  {id: 12, key: 'Diğer', value: 'Diğer'},
+  {id: 1, key: 'Eğlence', value: 'Eğlence'},
+  {id: 2, key: 'Faturalar', value: 'Faturalar'},
+  {id: 3, key: 'Maaş', value: 'Maaş'},
+  {id: 4, key: 'Ulaşım', value: 'Ulaşım'},
+  {id: 5, key: 'Mutfak', value: 'Mutfak'},
+  {id: 6, key: 'Para', value: 'Para Aktarma'},
+  {id: 7, key: 'Ek', value: 'Ek Gelir'},
+  {id: 8, key: 'Kira', value: 'Kira'},
+  {id: 9, key: 'Kredi', value: 'Kredi Kartı'},
+  {id: 10, key: 'Kredi', value: 'Kredi'},
+  {id: 11, key: 'Yemek', value: 'Yemek'},
+  {id: 13, key: 'Benzin', value: 'Benzin'},
+  {id: 14, key: 'Araba', value: 'Araba'},
 ];

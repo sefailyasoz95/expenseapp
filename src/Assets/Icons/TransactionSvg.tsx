@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Svg, {Path} from 'react-native-svg';
+import {Colors} from '../../Constants/Colors';
 type Props = {};
 
 const TransactionSvg = (props: Props) => (
@@ -7,7 +8,7 @@ const TransactionSvg = (props: Props) => (
     data-name="Layer 1"
     viewBox="0 0 122.88 72.15"
     width="30"
-    fill={'white'}
+    fill={Colors.lightGray}
     height="30"
     {...props}>
     <Path

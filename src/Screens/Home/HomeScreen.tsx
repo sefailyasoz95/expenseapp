@@ -18,12 +18,10 @@ import {
 import {Colors} from '../../Constants/Colors';
 import {responsive} from '../../utils/Helpers';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
-import {Activities, DummyCards} from '../../Constants/Dummy';
 import Card from '../../Components/Card/Card';
 import ActivityItem from '../../Components/ActivityItem/ActivityItem';
 import PlusSvg from '../../Assets/Icons/PlusSvg';
 import Tabs from '../../Components/Tabs/Tabs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddCardModal from '../../Components/AddCardModal/AddCardModal';
 import Animated, {
   Easing,
@@ -158,7 +156,7 @@ const HomeScreen = ({navigation, route}: Props) => {
         }}
         cards={cards}
       />
-      <Loading />
+      {loading && <Loading />}
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View>

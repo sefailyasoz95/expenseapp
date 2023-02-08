@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Svg, {Path} from 'react-native-svg';
+import {Colors} from '../../Constants/Colors';
 type Props = {};
 const RentSvg = (props: Props) => (
   <Svg
     viewBox="0 0 122.879 102.914"
     width="30"
     height="30"
-    fill={'white'}
+    fill={Colors.lightGray}
     {...props}>
     <Path
       fillRule="evenodd"

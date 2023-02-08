@@ -1,10 +1,11 @@
 import * as React from 'react';
 import Svg, {Path} from 'react-native-svg';
+import {Colors} from '../../Constants/Colors';
 type Props = {};
 const FoodSvg = (props: Props) => (
   <Svg
     fillRule="evenodd"
-    fill={'white'}
+    fill={Colors.lightGray}
     clipRule="evenodd"
     viewBox="0 0 366 511.98"
     width="30"
