@@ -8,7 +8,12 @@ import {
   updateActivity,
 } from '../actions/activityActions';
 import {createUser} from '../actions/userActions';
-import {createCard, getCardsByDeviceId} from '../actions/cardActions';
+import {
+  createCard,
+  deleteCard,
+  getCardsByDeviceId,
+  updateCard,
+} from '../actions/cardActions';
 
 export const initialState: InitialState = {
   error: false,
@@ -187,6 +192,50 @@ export const reducer = createSlice({
         state.error = true;
         state.loading = false;
         // *********** Delete Activity END *********** \\
+      }) // *********** Update Card START *********** \\
+      .addCase(updateCard.pending, state => {
+        state.loading = true;
+        state.message = '';
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(
+        updateCard.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+            // state.cards = action.payload.data;
+          } else {
+            // state.activities
+          }
+          state.loading = false;
+        },
+      )
+      .addCase(updateCard.rejected, (state, action: any) => {
+        state.error = true;
+        state.loading = false;
+        // *********** Update Card END *********** \\
+      }) // *********** Delete Card START *********** \\
+      .addCase(deleteCard.pending, state => {
+        state.loading = true;
+        state.message = '';
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(
+        deleteCard.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+            // state.cards = action.payload.data;
+          } else {
+            // state.activities
+          }
+          state.loading = false;
+        },
+      )
+      .addCase(deleteCard.rejected, (state, action: any) => {
+        state.error = true;
+        state.loading = false;
+        // *********** Delete Card END *********** \\
       });
   },
 });

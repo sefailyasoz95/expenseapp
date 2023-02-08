@@ -152,7 +152,7 @@ const HomeScreen = ({navigation, route}: Props) => {
         onClose={refReshCards => {
           setAddCardOpen(false);
           if (refReshCards) {
-            // getCards();
+            dispatch(getCardsByDeviceId());
             getActivityItemsAndCalculateBalance();
           }
         }}

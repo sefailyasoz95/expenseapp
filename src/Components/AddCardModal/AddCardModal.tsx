@@ -17,7 +17,11 @@ import {IActivity, ICard} from '../../Types/types';
 import {Colors} from '../../Constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppDispatch} from '../../Redux/store/store';
-import {createCard} from '../../Redux/actions/cardActions';
+import {
+  createCard,
+  deleteCard,
+  updateCard,
+} from '../../Redux/actions/cardActions';
 
 type Props = {
   isOpen: boolean;
@@ -84,15 +88,12 @@ const AddCardModal = ({
       cardDisplayNumber: `**** **** **** ${part4}`,
     };
     if (selectedCard?.id) {
-      cards.find(item => item.id === selectedCard.id)!.cardDisplayNumber =
-        manipulated.cardDisplayNumber;
-      cards.find(item => item.id === selectedCard.id)!.cardHolder =
-        manipulated.cardHolder;
-      cards.find(item => item.id === selectedCard.id)!.cardNumber =
-        manipulated.cardNumber;
-      cards.find(item => item.id === selectedCard.id)!.cvv = manipulated.cvv;
-      cards.find(item => item.id === selectedCard.id)!.validThru =
-        manipulated.validThru;
+      dispatch(
+        updateCard({
+          id: selectedCard!.id,
+          data: {...manipulated, userEmail: 'sefailyas1455@gmail.com'},
+        }),
+      );
     } else {
       const {id, ...rest} = manipulated;
       dispatch(createCard({...rest, userEmail: 'sefailyas1455@gmail.com'}));
@@ -120,38 +121,8 @@ const AddCardModal = ({
     }
   }, [isOpen]);
   const handleDelete = async () => {
-    let filteredItems = activityItems.filter(
-      item => item.cardId === selectedCard!.id,
-    );
-    if (filteredItems.length > 0) {
-      Alert.alert(
-        'Bu kartı silmek istediğine emin misin?',
-        'Bu karta ait harcamalar mevcut, bu kartı silersen, onlarda silinecek',
-        [
-          {text: 'Silme'},
-          {
-            text: 'Sil',
-            onPress: async () => {
-              let filteredActivity = activityItems.filter(
-                item => item.cardId !== selectedCard!.id,
-              );
-              await AsyncStorage.setItem(
-                'activityItems',
-                JSON.stringify(filteredActivity),
-              );
-              let filtered = cards.filter(item => item.id !== selectedCard!.id);
-              await AsyncStorage.setItem('cards', JSON.stringify(filtered));
-              onClose(true);
-            },
-            style: 'destructive',
-          },
-        ],
-      );
-    } else {
-      let filtered = cards.filter(item => item.id !== selectedCard!.id);
-      await AsyncStorage.setItem('cards', JSON.stringify(filtered));
-      onClose(true);
-    }
+    dispatch(deleteCard(selectedCard!.id));
+    onClose(true);
   };
   return (
     <Animated.View
