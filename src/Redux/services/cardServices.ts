@@ -5,8 +5,6 @@ import {getUniqueId} from 'react-native-device-info';
 export const CreateCardAsync = async (data: CreateCardType) => {
   try {
     const response = await axiosClient.post(`cards`, data);
-    console.log('response.data:: ', response.data);
-
     return response.data;
   } catch (error: any) {
     return error;

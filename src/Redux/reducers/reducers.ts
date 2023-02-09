@@ -118,6 +118,8 @@ export const reducer = createSlice({
         (state, action: PayloadAction<GenericApiResponse>) => {
           if (action.payload.statusCode === 200) {
           } else {
+            state.message = action.payload.message;
+            state.error = true;
           }
           state.loading = false;
         },

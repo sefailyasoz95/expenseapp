@@ -30,6 +30,14 @@ type Props = {
   selectedCard?: ICard;
   activityItems: IActivity[];
 };
+const defaultState = {
+  cardHolder: '',
+  cardNumber: '',
+  cvv: '',
+  id: 0,
+  validThru: '',
+  cardDisplayNumber: '',
+};
 
 const AddCardModal = ({
   isOpen,
@@ -40,14 +48,7 @@ const AddCardModal = ({
 }: Props) => {
   const scale = useRef(new Animated.Value(0)).current;
   const dispatch = useAppDispatch();
-  const [cardValues, setCardValues] = useState<ICard>({
-    cardHolder: '',
-    cardNumber: '',
-    cvv: '',
-    id: cards.length + 1,
-    validThru: '',
-    cardDisplayNumber: '',
-  });
+  const [cardValues, setCardValues] = useState<ICard>(defaultState);
   useEffect(() => {
     if (selectedCard?.id) {
       setCardValues({
@@ -74,12 +75,9 @@ const AddCardModal = ({
   }, [selectedCard]);
 
   const handleSave = async () => {
-    let part1 = cardValues.cardNumber.slice(0, 4);
-    let part2 = cardValues.cardNumber.slice(4, 8);
-    let part3 = cardValues.cardNumber.slice(8, 12);
     let part4 = cardValues.cardNumber.slice(12, 16);
     let manipulated: ICard = {
-      cardNumber: `${part1} ${part2} ${part3} ${part4}`,
+      cardNumber: cardValues.cardNumber,
       cardHolder: cardValues.cardHolder,
       cvv: cardValues.cvv,
       validThru: cardValues.validThru,
@@ -94,13 +92,25 @@ const AddCardModal = ({
           data: {...manipulated, userEmail: 'sefailyas1455@gmail.com'},
         }),
       );
+      onClose(true);
+      setCardValues(defaultState);
     } else {
-      const {id, ...rest} = manipulated;
-      dispatch(createCard({...rest, userEmail: 'sefailyas1455@gmail.com'}));
+      if (
+        !cardValues.cardHolder ||
+        !cardValues.cardNumber ||
+        !cardValues.cvv ||
+        !cardValues.validThru
+      )
+        Alert.alert('Bütün alanların doldurulması zorunludur!!');
+      else {
+        const {id, ...rest} = manipulated;
+        dispatch(createCard({...rest, userEmail: 'sefailyas1455@gmail.com'}));
+        onClose(true);
+        setCardValues(defaultState);
+      }
       // cards.push(manipulated);
     }
     // await AsyncStorage.setItem('cards', JSON.stringify(cards));
-    onClose(true);
   };
 
   useEffect(() => {

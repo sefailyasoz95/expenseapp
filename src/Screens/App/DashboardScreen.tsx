@@ -47,7 +47,7 @@ const DashboardScreen = ({navigation, route}: Props) => {
           paddingHorizontal: 21,
           textAlign: 'center',
         }}>
-        Sizin için bir sonraki versiyonda bu ekranda kullanabileceğiniz bazı
+        Sizin için ileriki versiyonlarda bu ekranda kullanabileceğiniz bazı
         grafikler hazırlıyoruz.
       </Text>
       {/* <ScrollView>
