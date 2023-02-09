@@ -32,7 +32,7 @@ const Icon = ({name, selected}: Props) => {
   else if (name === 'Para') return <TransactionSvg />;
   else if (name === 'Ek') return <SalarySvg />;
   else if (name === 'Kira') return <RentSvg />;
-  else if (name === 'Kredi') return <CreditCardSvg />;
+  else if (name === 'Kredi Kartı') return <CreditCardSvg />;
   else if (name === 'Kredi') return <CreditCardSvg />;
   else if (name === 'Yemek') return <FoodSvg />;
   else if (name === 'Benzin') return <GasSvg />;

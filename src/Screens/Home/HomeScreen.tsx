@@ -35,6 +35,7 @@ import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
 import {getActivitiesByDeviceId} from '../../Redux/actions/activityActions';
 import Loading from '../../Components/Loading/Loading';
 import {getCardsByDeviceId} from '../../Redux/actions/cardActions';
+import {writeLog} from '../../Redux/actions/logActions';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'HomeScreen'>;
@@ -126,6 +127,7 @@ const HomeScreen = ({navigation, route}: Props) => {
   }, [activities]);
 
   useEffect(() => {
+    dispatch(writeLog('app initialized'));
     navigation.addListener('focus', () => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       getActivityItemsAndCalculateBalance();

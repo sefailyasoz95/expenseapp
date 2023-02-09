@@ -14,6 +14,7 @@ import {
   getCardsByDeviceId,
   updateCard,
 } from '../actions/cardActions';
+import {writeLog} from '../actions/logActions';
 
 export const initialState: InitialState = {
   error: false,
@@ -238,6 +239,14 @@ export const reducer = createSlice({
         state.error = true;
         state.loading = false;
         // *********** Delete Card END *********** \\
+      }) // *********** Write Log START *********** \\
+      .addCase(writeLog.pending, state => {})
+      .addCase(
+        writeLog.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {},
+      )
+      .addCase(writeLog.rejected, (state, action: any) => {
+        // *********** Write Log END *********** \\
       });
   },
 });

@@ -242,6 +242,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           style={{marginVertical: 20}}
           renderItem={({item, index}) => (
             <TouchableOpacity
+              key={index}
               onPress={() => {
                 setFormValues({
                   ...formValues,
@@ -262,7 +263,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
                       : 'transparent',
                 },
               ]}>
-              <Icon selected={false} name={item.value} />
+              <Icon key={index * 20} selected={false} name={item.value} />
               <Text style={[styles.categoryItemText]}>{item.value}</Text>
             </TouchableOpacity>
           )}
@@ -289,6 +290,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           style={{marginVertical: 20}}
           renderItem={({item, index}) => (
             <TouchableOpacity
+              key={index}
               onPress={() => {
                 setFormValues({
                   ...formValues,

@@ -98,7 +98,7 @@ export const ActivityCategoryNames: ICategory[] = [
   {id: 6, key: 'Para', value: 'Para Aktarma'},
   {id: 7, key: 'Ek', value: 'Ek Gelir'},
   {id: 8, key: 'Kira', value: 'Kira'},
-  {id: 9, key: 'Kredi', value: 'Kredi Kartı'},
+  {id: 9, key: 'KrediKartı', value: 'Kredi Kartı'},
   {id: 10, key: 'Kredi', value: 'Kredi'},
   {id: 11, key: 'Yemek', value: 'Yemek'},
   {id: 13, key: 'Benzin', value: 'Benzin'},
