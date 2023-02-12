@@ -8,6 +8,7 @@ import {
   TextInputProps,
   TextStyle,
   View,
+  ViewStyle,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -21,6 +22,7 @@ type Props = {
   onModalOpen: (val: boolean) => void;
   isModalOpen: boolean;
   label: string;
+  containerStyle?: StyleProp<ViewStyle>;
 };
 
 const InputTrigger: React.FC<Props> = ({
@@ -28,6 +30,7 @@ const InputTrigger: React.FC<Props> = ({
   onModalOpen,
   isModalOpen,
   label,
+  containerStyle,
 }) => {
   const placeholderRef = useRef(new Animated.Value(0)).current;
   const inputRef = useRef<TextInput | null>(null);
@@ -57,13 +60,12 @@ const InputTrigger: React.FC<Props> = ({
   return (
     <Pressable
       onPress={() => {
-        console.log('test');
-
         movePlaceOlderUp();
         onModalOpen(true);
       }}
       style={[
         styles.inputContainer,
+        containerStyle,
         inputContainerStyleHelper('input', 'rounded', false, false, true),
       ]}>
       <Animated.Text

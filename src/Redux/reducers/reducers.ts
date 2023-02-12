@@ -96,10 +96,10 @@ export const reducer = createSlice({
         createUser.fulfilled,
         (state, action: PayloadAction<GenericApiResponse>) => {
           if (action.payload.statusCode === 200) {
-            AsyncStorage.setItem('welcomePassed', 'true');
             state.isWelcomePassed = true;
           } else {
-            // state.activities
+            state.message = action.payload.message;
+            state.error = true;
           }
           state.loading = false;
         },

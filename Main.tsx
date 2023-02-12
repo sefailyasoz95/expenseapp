@@ -5,6 +5,7 @@ import AppStack from './src/Stacks/App/AppStack';
 import WelcomeStack from './src/Stacks/Welcome/WelcomeStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setIsWelcomePassed} from './src/Redux/reducers/reducers';
+import {getUserByDeviceId} from './src/Redux/actions/userActions';
 
 type Props = {};
 // 1232 3124 5435 4651
@@ -20,11 +21,7 @@ const Main = (props: Props) => {
   }, [error, message]);
 
   useEffect(() => {
-    AsyncStorage.getItem('welcomePassed').then(value => {
-      if (value) {
-        dispatch(setIsWelcomePassed(true));
-      }
-    });
+    dispatch(getUserByDeviceId());
   }, []);
 
   return isWelcomePassed ? <AppStack /> : <WelcomeStack />;

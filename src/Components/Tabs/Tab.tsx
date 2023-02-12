@@ -1,5 +1,12 @@
 import {Shadow, RoundedRect, Canvas} from '@shopify/react-native-skia';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {Colors} from '../../Constants/Colors';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
 
@@ -12,7 +19,7 @@ type Props = {
 
 const Tab = ({isActive, text, onPress, index}: Props) => {
   return (
-    <Pressable onPress={() => onPress(index)} style={styles.container}>
+    <Pressable onPress={() => onPress(index)} style={[styles.container]}>
       <Canvas
         style={{
           width: '100%',

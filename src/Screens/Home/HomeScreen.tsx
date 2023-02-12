@@ -213,8 +213,8 @@ const HomeScreen = ({navigation, route}: Props) => {
             />
           </View>
         </Animated.View>
+        <Tabs activeIndex={activeIndex} onTabChange={setActiveIndex} />
         <View style={[{flex: 1}]}>
-          <Tabs activeIndex={activeIndex} onTabChange={setActiveIndex} />
           <ScrollView
             horizontal
             nestedScrollEnabled
