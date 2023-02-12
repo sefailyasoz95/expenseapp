@@ -49,7 +49,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
   const snapPoints = useMemo(() => ['1%', '40%'], []);
   const [isOpen, setIsOpen] = useState(false);
   const [formValues, setFormValues] = useState<IActivity>({
-    id: route.params.activityItems.length + 1,
+    id: -1,
     category: ActivityCategoryNames[0].value,
     date: formater.format(new Date()),
     description: '',
@@ -57,6 +57,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     type: 'expense',
     cardId: undefined,
   });
+  console.log('route.params: ', route.params.selectedActivityItem);
   useEffect(() => {
     if (route.params.selectedActivityItem) {
       setFormValues(route.params.selectedActivityItem);
@@ -78,10 +79,12 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
   };
   const handleSave = async () => {
     if (!formValues.description || !formValues.price) {
-      Alert.alert('Açıkalama ve Tutar alanlarını doldurmak zorundasın!');
+      Alert.alert('Açıklama ve Tutar alanları zorunludur!');
     } else {
       const deviceId = await getUniqueId();
       if (route.params.selectedActivityItem) {
+        console.log('here?');
+
         let dataTobeSend = {
           ...formValues,
           userEmail: 'sefailyas1455@gmail.com',
@@ -94,11 +97,13 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           }),
         );
       } else {
+        const {id, ...rest} = formValues;
         let dataTobeSend = {
-          ...formValues,
+          ...rest,
           userEmail: 'sefailyas1455@gmail.com',
           deviceId,
         };
+
         dispatch(createActivity(dataTobeSend));
       }
       navigation.navigate('HomeScreen');
@@ -184,7 +189,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
               formValues.cardId
                 ? route.params.cards
                     .filter(item => item.id === formValues.cardId)[0]
-                    .cardNumber.split(' ')[3] + ' ile biten kart'
+                    .cardDisplayNumber.split(' ')[3] + ' ile biten kart'
                 : ''
             }
             label="Kart"
@@ -192,20 +197,43 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
         </ScrollView>
       </KeyboardAvoidingView>
       <View style={styles.bottomButtons}>
-        <TouchableOpacity onPress={navigation.goBack}>
-          {Platform.OS === 'android' ? (
-            <Text style={{fontSize: responsive(35)}}>🔙</Text>
-          ) : (
-            <Text style={{fontSize: responsive(35)}}>⬅</Text>
-          )}
+        <TouchableOpacity
+          style={[styles.bottomButton, {borderColor: 'white'}]}
+          onPress={navigation.goBack}>
+          <Text
+            style={{
+              color: 'white',
+              fontWeight: 'bold',
+              fontSize: responsive(20),
+            }}>
+            İptal
+          </Text>
         </TouchableOpacity>
         {route.params.selectedActivityItem && (
-          <TouchableOpacity onPress={() => handleDelete()}>
-            <Text style={{fontSize: responsive(35)}}>❌</Text>
+          <TouchableOpacity
+            style={[styles.bottomButton, {borderColor: '#ff4444'}]}
+            onPress={handleDelete}>
+            <Text
+              style={{
+                color: '#ff4444',
+                fontWeight: 'bold',
+                fontSize: responsive(20),
+              }}>
+              Sil
+            </Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={() => handleSave()}>
-          <Text style={{fontSize: responsive(35)}}>✅</Text>
+        <TouchableOpacity
+          style={[styles.bottomButton, {borderColor: '#00cc00'}]}
+          onPress={handleSave}>
+          <Text
+            style={{
+              color: '#00cc00',
+              fontWeight: 'bold',
+              fontSize: responsive(20),
+            }}>
+            Kaydet
+          </Text>
         </TouchableOpacity>
       </View>
       <DatePicker
@@ -282,8 +310,15 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
         enablePanDownToClose={true}>
         <TouchableOpacity
           onPress={() => cardBottomSheetRef.current?.close()}
-          style={styles.closeIcon}>
+          style={[styles.closeIcon, {left: 15, right: 0}]}>
           <Text>❌</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setFormValues({...formValues, cardId: undefined});
+          }}
+          style={styles.closeIcon}>
+          <Text style={{color: Colors.white}}>Temizle</Text>
         </TouchableOpacity>
         <FlatList
           data={route.params.cards}
@@ -312,7 +347,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
                 },
               ]}>
               <Text style={[styles.categoryItemText]}>
-                {item.cardNumber.split(' ')[3] + ' ile biten kart'}
+                {item.cardDisplayNumber.split(' ')[3] + ' ile biten kart'}
               </Text>
             </TouchableOpacity>
           )}
@@ -387,4 +422,12 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   closeIcon: {position: 'absolute', right: 15, top: 0, zIndex: 109123},
+  bottomButton: {
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

@@ -207,8 +207,8 @@ const AddCardModal = ({
                 Keyboard.dismiss();
                 onClose(false);
               }}
-              style={[styles.button, {backgroundColor: '#ff4444'}]}>
-              <Text style={styles.btnText}>İptal</Text>
+              style={[styles.button, {borderColor: '#ff4444'}]}>
+              <Text style={[styles.btnText, {color: '#ff4444'}]}>İptal</Text>
             </TouchableOpacity>
             {selectedCard?.id && (
               <TouchableOpacity
@@ -222,8 +222,8 @@ const AddCardModal = ({
                 Keyboard.dismiss();
                 handleSave();
               }}
-              style={[styles.button, {backgroundColor: '#00cc00'}]}>
-              <Text style={styles.btnText}>Kaydet</Text>
+              style={[styles.button, {borderColor: '#00cc00'}]}>
+              <Text style={[styles.btnText, {color: '#00cc00'}]}>Kaydet</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -276,6 +276,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 10,
     justifyContent: 'center',
+    borderWidth: 1,
   },
   btnText: {
     color: '#fff',

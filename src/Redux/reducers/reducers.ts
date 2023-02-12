@@ -7,7 +7,7 @@ import {
   getActivitiesByDeviceId,
   updateActivity,
 } from '../actions/activityActions';
-import {createUser} from '../actions/userActions';
+import {createUser, getUserByDeviceId} from '../actions/userActions';
 import {
   createCard,
   deleteCard,
@@ -24,6 +24,7 @@ export const initialState: InitialState = {
   activities: [],
   isWelcomePassed: false,
   cards: [],
+  user: undefined,
 };
 
 export const reducer = createSlice({
@@ -246,6 +247,19 @@ export const reducer = createSlice({
         (state, action: PayloadAction<GenericApiResponse>) => {},
       )
       .addCase(writeLog.rejected, (state, action: any) => {
+        // *********** Write Log END *********** \\
+      }) // *********** Write Log START *********** \\
+      .addCase(getUserByDeviceId.pending, state => {})
+      .addCase(
+        getUserByDeviceId.fulfilled,
+        (state, action: PayloadAction<GenericApiResponse>) => {
+          if (action.payload.statusCode === 200) {
+            state.user = action.payload.data ?? undefined;
+            state.isWelcomePassed = !!action.payload.data ?? false;
+          }
+        },
+      )
+      .addCase(getUserByDeviceId.rejected, (state, action: any) => {
         // *********** Write Log END *********** \\
       });
   },
