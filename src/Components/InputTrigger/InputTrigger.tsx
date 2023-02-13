@@ -55,7 +55,7 @@ const InputTrigger: React.FC<Props> = ({
     if (value) {
       movePlaceOlderUp();
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, value]);
 
   return (
     <Pressable

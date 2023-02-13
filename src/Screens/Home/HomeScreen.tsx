@@ -125,7 +125,7 @@ const HomeScreen = ({navigation, route}: Props) => {
       setTotalBalance(incomes - expenses);
     }
   }, [activities]);
-  // TODO: ACTIVITY UPDATE DE Bİ SIKINTI VAR? KART SONRADAN EKLENMİYOR
+
   useEffect(() => {
     dispatch(writeLog('app initialized'));
     navigation.addListener('focus', () => {

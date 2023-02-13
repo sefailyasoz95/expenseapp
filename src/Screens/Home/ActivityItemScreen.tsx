@@ -57,10 +57,12 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     type: 'expense',
     cardId: undefined,
   });
-  console.log('route.params: ', route.params.selectedActivityItem);
+
   useEffect(() => {
     if (route.params.selectedActivityItem) {
-      setFormValues(route.params.selectedActivityItem);
+      const {card, ...rest} = route.params.selectedActivityItem;
+
+      setFormValues({cardId: card?.id, ...rest});
     }
     return () => {
       Keyboard.dismiss();
@@ -90,6 +92,8 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           userEmail: 'sefailyas1455@gmail.com',
           deviceId,
         };
+        console.log('dataTobeSend: ', dataTobeSend);
+
         dispatch(
           updateActivity({
             id: route.params.selectedActivityItem.id,
@@ -383,14 +387,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   bottomSheet: {
-    shadowColor: '#aaa',
-    shadowOffset: {
-      width: 0,
-      height: -1,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 10,
+    // shadowColor: '#aaa',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: -1,
+    // },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 10,
+    // elevation: 10,
   },
   categoryItem: {
     paddingHorizontal: 10,
