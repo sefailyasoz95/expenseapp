@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
 import CloseSvg from '../../Assets/Icons/CloseSvg';
 import SInput from '../SInput/SInput';
@@ -22,6 +22,7 @@ import {
   deleteCard,
   updateCard,
 } from '../../Redux/actions/cardActions';
+import {WebsocketContext} from '../../Context/WebSocketContext';
 
 type Props = {
   isOpen: boolean;
@@ -51,6 +52,8 @@ const AddCardModal = ({
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.global);
   const [cardValues, setCardValues] = useState<ICard>(defaultState);
+  // const socket = useContext(WebsocketContext);
+
   useEffect(() => {
     if (selectedCard?.id) {
       setCardValues({
@@ -79,6 +82,7 @@ const AddCardModal = ({
   }, [selectedCard]);
 
   const handleSave = async () => {
+    // socket.emit('newMessage', cardValues.cardHolder);
     let part4 = cardValues.cardNumber.slice(12, 16);
     let manipulated: ICard = {
       cardNumber: cardValues.cardNumber,
@@ -113,9 +117,7 @@ const AddCardModal = ({
         onClose(true);
         setCardValues(defaultState);
       }
-      // cards.push(manipulated);
     }
-    // await AsyncStorage.setItem('cards', JSON.stringify(cards));
   };
 
   useEffect(() => {

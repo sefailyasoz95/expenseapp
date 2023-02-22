@@ -1,14 +1,12 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert} from 'react-native';
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from './src/Redux/store/store';
 import AppStack from './src/Stacks/App/AppStack';
 import WelcomeStack from './src/Stacks/Welcome/WelcomeStack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {setIsWelcomePassed} from './src/Redux/reducers/reducers';
 import {getUserByDeviceId} from './src/Redux/actions/userActions';
 
 type Props = {};
-// 1232 3124 5435 4651
+
 const Main = (props: Props) => {
   const {isWelcomePassed, error, message} = useAppSelector(
     state => state.global,
@@ -28,5 +26,3 @@ const Main = (props: Props) => {
 };
 
 export default Main;
-
-const styles = StyleSheet.create({});

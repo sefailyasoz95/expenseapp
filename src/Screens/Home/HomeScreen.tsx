@@ -8,7 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {createRef, useCallback, useEffect, useState} from 'react';
+import React, {
+  createRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import {HomeStackParams, IActivity, ICard} from '../../Types/types';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {Colors} from '../../Constants/Colors';
@@ -32,6 +38,7 @@ import {getActivitiesByDeviceId} from '../../Redux/actions/activityActions';
 import Loading from '../../Components/Loading/Loading';
 import {getCardsByDeviceId} from '../../Redux/actions/cardActions';
 import {writeLog} from '../../Redux/actions/logActions';
+import {WebsocketContext} from '../../Context/WebSocketContext';
 
 type Props = {
   navigation: NavigationProp<HomeStackParams, 'HomeScreen'>;
@@ -39,6 +46,7 @@ type Props = {
 };
 
 const HomeScreen = ({navigation, route}: Props) => {
+  // const socket = useContext(WebsocketContext);
   const formater = new Intl.DateTimeFormat('tr-TR');
   const [selectedCard, setSelectedCard] = useState<ICard | undefined>(
     undefined,
@@ -54,48 +62,6 @@ const HomeScreen = ({navigation, route}: Props) => {
     setRef(scrollRef?.current);
   }, []);
 
-  // const lastContentOffset = useSharedValue(0);
-  // const isScrolling = useSharedValue(false);
-  // const translateY = useSharedValue(0);
-
-  // const actionBarStyle = useAnimatedStyle(() => {
-  //   return {
-  //     transform: [
-  //       {
-  //         translateY: withTiming(translateY.value, {
-  //           duration: 750,
-  //           easing: Easing.inOut(Easing.ease),
-  //         }),
-  //       },
-  //     ],
-  //   };
-  // });
-  // const scrollHandler = useAnimatedScrollHandler({
-  //   onScroll: event => {
-  //     if (
-  //       lastContentOffset.value > event.contentOffset.y &&
-  //       isScrolling.value
-  //     ) {
-  //       if (translateY.value !== 0) translateY.value += 10;
-  //       console.log('scrolling up');
-  //     } else if (
-  //       lastContentOffset.value < event.contentOffset.y &&
-  //       isScrolling.value
-  //     ) {
-  //       if (translateY.value > -HEIGHT * 0.25) {
-  //         translateY.value += -10;
-  //       }
-  //       console.log('scrolling down');
-  //     }
-  //     lastContentOffset.value = event.contentOffset.y;
-  //   },
-  //   onBeginDrag: e => {
-  //     isScrolling.value = true;
-  //   },
-  //   onEndDrag: e => {
-  //     isScrolling.value = false;
-  //   },
-  // });
   const getActivityItemsAndCalculateBalance = useCallback(() => {
     if (activities.length > 0) {
       let incomes = 0;
@@ -121,6 +87,13 @@ const HomeScreen = ({navigation, route}: Props) => {
   }, [activities]);
 
   useEffect(() => {
+    // socket.on('connect', () => {
+    //   console.log('Connected!');
+    // });
+    // socket.on('onMessage', newMessage => {
+    //   console.log('onMessage event received!');
+    //   console.log(newMessage);
+    // });
     dispatch(writeLog('app initialized'));
     navigation.addListener('focus', () => {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -128,6 +101,12 @@ const HomeScreen = ({navigation, route}: Props) => {
       dispatch(getActivitiesByDeviceId());
       dispatch(getCardsByDeviceId());
     });
+
+    // return () => {
+    //   console.log('Unregistering Events...');
+    //   socket.off('connect');
+    //   socket.off('onMessage');
+    // };
   }, []);
 
   useEffect(() => {
