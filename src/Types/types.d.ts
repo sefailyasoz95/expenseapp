@@ -32,6 +32,7 @@ export type ICard = {
   validThru: string;
   cvv: string;
   cardType?: string;
+  isActive: boolean;
 };
 export type IActivityType = 'expense' | 'income';
 // export type ICategory =

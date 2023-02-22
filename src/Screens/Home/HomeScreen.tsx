@@ -10,11 +10,7 @@ import {
 } from 'react-native';
 import React, {createRef, useCallback, useEffect, useState} from 'react';
 import {HomeStackParams, IActivity, ICard} from '../../Types/types';
-import {
-  NavigationProp,
-  RouteProp,
-  useFocusEffect,
-} from '@react-navigation/native';
+import {NavigationProp, RouteProp} from '@react-navigation/native';
 import {Colors} from '../../Constants/Colors';
 import {responsive} from '../../utils/Helpers';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
@@ -49,17 +45,15 @@ const HomeScreen = ({navigation, route}: Props) => {
   );
   const dispatch = useAppDispatch();
   const {activities, loading, cards} = useAppSelector(state => state.global);
-  const safeAreaInsets = useSafeAreaInsets();
   const [activeIndex, setActiveIndex] = useState(1);
   const [totalBalance, setTotalBalance] = useState<Number>(0);
   const scrollRef = createRef<ScrollView>();
-
   const [addCardOpen, setAddCardOpen] = useState(false);
-  const [activityItems, setActivityItems] = useState<IActivity[]>([]);
   const [ref, setRef] = useState<any>();
   useEffect(() => {
     setRef(scrollRef?.current);
   }, []);
+
   // const lastContentOffset = useSharedValue(0);
   // const isScrolling = useSharedValue(false);
   // const translateY = useSharedValue(0);
@@ -112,7 +106,7 @@ const HomeScreen = ({navigation, route}: Props) => {
       });
       setTotalBalance(incomes - expenses);
     }
-  }, []);
+  }, [activities]);
 
   useEffect(() => {
     if (activities.length > 0) {

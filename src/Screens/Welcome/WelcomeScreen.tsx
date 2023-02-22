@@ -171,8 +171,14 @@ const WelcomeScreen = (props: Props) => {
           <Pressable
             onPress={() => {
               carouselRef.current?.snapToNext();
-            }}>
-            <Image key={index} source={item.image} style={styles.renderItem} />
+            }}
+            style={styles.imgContainer}>
+            <Image
+              key={index}
+              resizeMode="contain"
+              source={item.image}
+              style={styles.renderItem}
+            />
           </Pressable>
         )}
         onSnapToItem={nextSlide}
@@ -228,11 +234,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
   },
   renderItem: {
-    width: '90%',
-    height: '90%',
+    width: '100%',
+    height: '100%',
     borderRadius: 20,
     alignSelf: 'center',
     marginTop: responsive(50),
+    resizeMode: 'contain',
   },
   modal: {
     width: WIDTH,
@@ -268,5 +275,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: responsive(16),
+  },
+  imgContainer: {
+    width: '95%',
+    height: '95%',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 });

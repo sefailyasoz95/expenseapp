@@ -43,7 +43,7 @@ type Props = {
 const ActivityItemScreen = ({navigation, route}: Props) => {
   const formater = new Intl.DateTimeFormat('tr-TR');
   const dispatch = useAppDispatch();
-  const {loading} = useAppSelector(state => state.global);
+  const {loading, user} = useAppSelector(state => state.global);
   const categoryBottomSheetRef = useRef<BottomSheet>(null);
   const cardBottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '40%'], []);
@@ -57,6 +57,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     type: 'expense',
     cardId: undefined,
   });
+  console.log('user: ', user);
 
   useEffect(() => {
     if (route.params.selectedActivityItem) {
@@ -85,15 +86,11 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     } else {
       const deviceId = await getUniqueId();
       if (route.params.selectedActivityItem) {
-        console.log('here?');
-
         let dataTobeSend = {
           ...formValues,
-          userEmail: 'sefailyas1455@gmail.com',
+          userEmail: user!.email,
           deviceId,
         };
-        console.log('dataTobeSend: ', dataTobeSend);
-
         dispatch(
           updateActivity({
             id: route.params.selectedActivityItem.id,
@@ -104,7 +101,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
         const {id, ...rest} = formValues;
         let dataTobeSend = {
           ...rest,
-          userEmail: 'sefailyas1455@gmail.com',
+          userEmail: user!.email,
           deviceId,
         };
 
@@ -181,7 +178,11 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
             onModalOpen={() => {
               categoryBottomSheetRef.current?.snapToIndex(1);
             }}
-            value={formValues.category}
+            value={
+              ActivityCategoryNames.filter(
+                item => item.key === formValues.category,
+              )[0]?.value
+            }
             label="Kategori *"
           />
           <InputTrigger
@@ -190,7 +191,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
               cardBottomSheetRef.current?.snapToIndex(1);
             }}
             value={
-              formValues.cardId
+              formValues.cardId && route.params.cards.length
                 ? route.params.cards
                     .filter(item => item.id === formValues.cardId)[0]
                     .cardDisplayNumber.split(' ')[3] + ' ile biten kart'
@@ -278,7 +279,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
               onPress={() => {
                 setFormValues({
                   ...formValues,
-                  category: item.value,
+                  category: item.key,
                 });
                 categoryBottomSheetRef.current?.close();
               }}
@@ -295,7 +296,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
                       : 'transparent',
                 },
               ]}>
-              <Icon key={index * 20} selected={false} name={item.value} />
+              <Icon key={index * 20} selected={false} name={item.key} />
               <Text style={[styles.categoryItemText]}>{item.value}</Text>
             </TouchableOpacity>
           )}

@@ -16,7 +16,7 @@ import SInput from '../SInput/SInput';
 import {IActivity, ICard} from '../../Types/types';
 import {Colors} from '../../Constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useAppDispatch} from '../../Redux/store/store';
+import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
 import {
   createCard,
   deleteCard,
@@ -37,6 +37,7 @@ const defaultState = {
   id: 0,
   validThru: '',
   cardDisplayNumber: '',
+  isActive: true,
 };
 
 const AddCardModal = ({
@@ -48,6 +49,7 @@ const AddCardModal = ({
 }: Props) => {
   const scale = useRef(new Animated.Value(0)).current;
   const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.global);
   const [cardValues, setCardValues] = useState<ICard>(defaultState);
   useEffect(() => {
     if (selectedCard?.id) {
@@ -61,6 +63,7 @@ const AddCardModal = ({
         id: selectedCard.id,
         validThru: selectedCard.validThru,
         cardDisplayNumber: selectedCard.cardDisplayNumber,
+        isActive: selectedCard.isActive,
       });
     } else {
       setCardValues({
@@ -70,6 +73,7 @@ const AddCardModal = ({
         id: cards.length + 1,
         validThru: '',
         cardDisplayNumber: '',
+        isActive: true,
       });
     }
   }, [selectedCard]);
@@ -84,12 +88,13 @@ const AddCardModal = ({
       id: cardValues.id,
       cardType: cardValues.cardType,
       cardDisplayNumber: `**** **** **** ${part4}`,
+      isActive: true,
     };
     if (selectedCard?.id) {
       dispatch(
         updateCard({
           id: selectedCard!.id,
-          data: {...manipulated, userEmail: 'sefailyas1455@gmail.com'},
+          data: {...manipulated, userEmail: user!.email},
         }),
       );
       onClose(true);
@@ -104,7 +109,7 @@ const AddCardModal = ({
         Alert.alert('Bütün alanların doldurulması zorunludur!!');
       else {
         const {id, ...rest} = manipulated;
-        dispatch(createCard({...rest, userEmail: 'sefailyas1455@gmail.com'}));
+        dispatch(createCard({...rest, userEmail: user!.email}));
         onClose(true);
         setCardValues(defaultState);
       }

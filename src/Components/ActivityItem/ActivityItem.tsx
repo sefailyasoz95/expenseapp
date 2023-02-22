@@ -29,7 +29,7 @@ const ActivityItem = ({item, type, cards, onItemLongPress}: Props) => {
           y={0}
           r={14}
           width={WIDTH * 0.95}
-          height={HEIGHT < 700 ? HEIGHT * 0.1 : HEIGHT * 0.095}>
+          height={HEIGHT < 700 ? HEIGHT * 0.11 : HEIGHT * 0.095}>
           <Shadow
             dx={3}
             dy={3}
@@ -81,7 +81,7 @@ export default ActivityItem;
 const styles = StyleSheet.create({
   card: {
     width: WIDTH * 0.95,
-    height: HEIGHT < 700 ? HEIGHT * 0.1 : HEIGHT * 0.095,
+    height: HEIGHT < 700 ? HEIGHT * 0.11 : HEIGHT * 0.095,
     alignSelf: 'center',
   },
   content: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: WIDTH * 0.95,
     alignSelf: 'center',
-    height: HEIGHT < 700 ? HEIGHT * 0.1 : HEIGHT * 0.095,
+    height: HEIGHT < 700 ? HEIGHT * 0.11 : HEIGHT * 0.095,
   },
   row: {
     flexDirection: 'row',

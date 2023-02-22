@@ -16,7 +16,7 @@ export const CreateActivityAsync = async (data: CreateActivityType) => {
   try {
     const response = await axiosClient.post(`activities`, data);
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 };
