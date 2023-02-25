@@ -8,7 +8,7 @@ import {getUserByDeviceId} from './src/Redux/actions/userActions';
 type Props = {};
 
 const Main = (props: Props) => {
-  const {isWelcomePassed, error, message} = useAppSelector(
+  const {isWelcomePassed, error, message, user} = useAppSelector(
     state => state.global,
   );
   const dispatch = useAppDispatch();
@@ -19,8 +19,8 @@ const Main = (props: Props) => {
   }, [error, message]);
 
   useEffect(() => {
-    dispatch(getUserByDeviceId());
-  }, []);
+    if (!user) dispatch(getUserByDeviceId());
+  }, [isWelcomePassed]);
 
   return isWelcomePassed ? <AppStack /> : <WelcomeStack />;
 };

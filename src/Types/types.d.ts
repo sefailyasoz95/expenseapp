@@ -16,7 +16,9 @@ export type AppStackParams = {
 };
 
 export type HomeStackParams = {
-  HomeScreen: undefined;
+  HomeScreen: {
+    refresh?: boolean;
+  };
   ActivityItemScreen: {
     cards: ICard[];
     activityItems: IActivity[];

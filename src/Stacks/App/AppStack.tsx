@@ -1,8 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import TabBar from '../../Components/TabBar/TabBar';
 import DashboardScreen from '../../Screens/App/DashboardScreen';
-import HomeScreen from '../../Screens/Home/HomeScreen';
-import SettingsScreen from '../../Screens/App/SettingsScreen';
 import {AppStackParams} from '../../Types/types';
 import HomeStack from '../Home/HomeStack';
 

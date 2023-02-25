@@ -104,15 +104,18 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           userEmail: user!.email,
           deviceId,
         };
-
         dispatch(createActivity(dataTobeSend));
       }
-      navigation.navigate('HomeScreen');
+      navigation.navigate('HomeScreen', {
+        refresh: true,
+      });
     }
   };
   const handleDelete = async () => {
     dispatch(deleteActivity(route.params.selectedActivityItem!.id));
-    navigation.navigate('HomeScreen');
+    navigation.navigate('HomeScreen', {
+      refresh: true,
+    });
   };
   return (
     <SafeAreaView style={styles.container}>

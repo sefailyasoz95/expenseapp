@@ -85,6 +85,9 @@ const HomeScreen = ({navigation, route}: Props) => {
       setTotalBalance(incomes - expenses);
     }
   }, [activities]);
+  useEffect(() => {
+    dispatch(writeLog('app initialized'));
+  }, []);
 
   useEffect(() => {
     // socket.on('connect', () => {
@@ -94,20 +97,17 @@ const HomeScreen = ({navigation, route}: Props) => {
     //   console.log('onMessage event received!');
     //   console.log(newMessage);
     // });
-    dispatch(writeLog('app initialized'));
-    navigation.addListener('focus', () => {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-      getActivityItemsAndCalculateBalance();
-      dispatch(getActivitiesByDeviceId());
-      dispatch(getCardsByDeviceId());
-    });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    getActivityItemsAndCalculateBalance();
+    dispatch(getActivitiesByDeviceId());
+    dispatch(getCardsByDeviceId());
 
     // return () => {
     //   console.log('Unregistering Events...');
     //   socket.off('connect');
     //   socket.off('onMessage');
     // };
-  }, []);
+  }, [route.params?.refresh]);
 
   useEffect(() => {
     ref?.scrollTo({
