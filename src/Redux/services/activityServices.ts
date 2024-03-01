@@ -15,8 +15,12 @@ export const GetActivitiesByDeviceIdAsync = async () => {
 export const CreateActivityAsync = async (data: CreateActivityType) => {
   try {
     const response = await axiosClient.post(`activities`, data);
+    console.log('response.data: ', response.data);
+
     return response.data;
   } catch (error: any) {
+    console.log('create error: ', error.response);
+
     return error;
   }
 };

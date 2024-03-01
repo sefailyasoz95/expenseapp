@@ -1,7 +1,6 @@
 import {
   Alert,
   Animated,
-  Button,
   Easing,
   Keyboard,
   StyleSheet,
@@ -9,20 +8,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {HEIGHT, WIDTH} from '../../Constants/Constants';
-import CloseSvg from '../../Assets/Icons/CloseSvg';
 import SInput from '../SInput/SInput';
 import {IActivity, ICard} from '../../Types/types';
 import {Colors} from '../../Constants/Colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppDispatch, useAppSelector} from '../../Redux/store/store';
 import {
   createCard,
   deleteCard,
   updateCard,
 } from '../../Redux/actions/cardActions';
-import {WebsocketContext} from '../../Context/WebSocketContext';
 
 type Props = {
   isOpen: boolean;
@@ -94,6 +90,7 @@ const AddCardModal = ({
       cardDisplayNumber: `**** **** **** ${part4}`,
       isActive: true,
     };
+
     if (selectedCard?.id) {
       dispatch(
         updateCard({

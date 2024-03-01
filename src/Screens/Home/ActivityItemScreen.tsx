@@ -57,7 +57,6 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
     type: 'expense',
     cardId: undefined,
   });
-  console.log('user: ', user);
 
   useEffect(() => {
     if (route.params.selectedActivityItem) {
@@ -91,6 +90,8 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           userEmail: user!.email,
           deviceId,
         };
+        console.log('dataTobeSend update: ', dataTobeSend);
+
         dispatch(
           updateActivity({
             id: route.params.selectedActivityItem.id,
@@ -104,6 +105,7 @@ const ActivityItemScreen = ({navigation, route}: Props) => {
           userEmail: user!.email,
           deviceId,
         };
+        console.log('dataTobeSend create: ', dataTobeSend);
         dispatch(createActivity(dataTobeSend));
       }
       navigation.navigate('HomeScreen', {
